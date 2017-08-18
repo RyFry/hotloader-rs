@@ -1,0 +1,7 @@
+[package]
+name = "hotloader"
+version = "0.1.0"
+authors = ["RyFry <ryanlorey@outlook.com>"]
+
+[dependencies]
+filetime = "0.1.10"
