@@ -101,29 +101,32 @@ impl<RowType: Default> HotloadedFile<RowType> {
     }
 }
 
-/// Simple parsing function for testing. Real implementation should be provided by user.
-fn my_parse(section_header: &String, row: &String, current: &mut u32) { 
-    match row.parse::<u32>() {
-        Ok(num) => { *current = num; },
-        Err(_) => { }
-    };
-}
 
-fn main() {
-    let mut hotloaded_file = HotloadedFile::new("assets/hotloadedfile.txt", ":", my_parse);
-
-    let half_second = time::Duration::from_millis(500);
-
-    loop {
-        match hotloaded_file.hotload() {
-            Ok(true) => println!("File reloaded: {:?}", hotloaded_file.contents),
-            Err(e) => println!("{:?}", e),
-            _ => {},
+mod test {
+    /// Simple parsing function for testing. Real implementation should be provided by user.
+    fn my_parse(section_header: &String, row: &String, current: &mut u32) { 
+        match row.parse::<u32>() {
+            Ok(num) => { *current = num; },
+            Err(_) => { }
         };
+    }
 
-        thread::sleep(half_second);
-        
-        //assert!(hotloaded_file.contents.contains_key("Section1"));
-        // assert!(hotloaded_file.contents.contains_key("Section2"));
+    #[test]
+    fn hotload_sectionheader_colon_rowtype_int() {
+        let mut hotloaded_file = HotloadedFile::new("assets/hotloadedfile.txt", ":", my_parse);
+
+        let half_second = time::Duration::from_millis(500);
+
+        let mut counter = 0;
+        while counter < 5 {
+            match hotloaded_file.hotload() {
+                Ok(true) => println!("File reloaded: {:?}", hotloaded_file.contents),
+                Err(e) => println!("{:?}", e),
+                _ => {},
+            };
+
+            thread::sleep(half_second);
+            counter += 1;
+        }
     }
 }

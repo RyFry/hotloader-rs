@@ -2,6 +2,12 @@
 name = "hotloader"
 version = "0.1.0"
 authors = ["RyFry <ryanlorey@outlook.com>"]
+readme = "README.md"
+keywords = ["hotload"]
+repository = "https://github.com/RyFry/hotloader-rs"
+homepage = "https://github.com/RyFry/hotloader-rs"
+documentation = "https://github.com/RyFry/hotloader-rs"
+description = "Format-agnostic library to reload file on modification"
 
 [dependencies]
 filetime = "0.1.10"
